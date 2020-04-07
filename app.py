@@ -62,7 +62,7 @@ def main():
     st.title("Language Detector & Translator")
     
     image = Image.open("people_speaking.jpg")
-    st.image(image,caption="Different languages", use_column_width=True)
+    st.sidebar.image(image,caption="Different languages", use_column_width=True)
 
     activities = ["Detector & Translator","About"]
     choice = st.sidebar.selectbox("Menu",activities)
