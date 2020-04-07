@@ -68,7 +68,7 @@ def main():
         st.subheader("Text Area")
         lista_modos = ("For 23 languages","For selected languages")
         modo = st.sidebar.radio("Choose ?", lista_modos)
-        texto_default = 'Texto'
+        texto_default = 'Text'
         raw_text = st.text_area("Copy&Paste -> Ctrl+Enter",texto_default)
         blob = TextBlob(raw_text)
         if modo == "For selected languages":
@@ -130,8 +130,8 @@ def main():
 
     if choice == 'About':
         st.subheader("I hope you enjoy it and use to learn something")
-        st.subheader("Buit with Streamlit and Textblob")
-        st.subheader("SILVIO CESAR DE LIMA")
+        st.subheader("Built with Streamlit and Textblob")
+        st.subheader("by Silvio Lima")
 
 
 
