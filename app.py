@@ -8,6 +8,8 @@ from PIL import Image
 # Emoji
 import emoji
 
+from bokeh.models.widgets import Div
+
 # Web Scraping Pkg
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
@@ -136,6 +138,12 @@ def main():
         st.subheader("I hope you enjoy it and use to learn something")
         st.subheader("Built with Streamlit and Textblob")
         st.subheader("by Silvio Lima")
+        
+        if st.button("Linkedin"):
+            js = "window.open('https://www.linkedin.com/in/silviocesarlima/')"
+            html = '<img src onerror="{}">'.format(js)
+            div = Div(term=html)
+            st.bokeh_chart(div)
 
 
 
