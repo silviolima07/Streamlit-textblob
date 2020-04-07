@@ -142,7 +142,7 @@ def main():
         if st.button("Linkedin"):
             js = "window.open('https://www.linkedin.com/in/silviocesarlima/')"
             html = '<img src onerror="{}">'.format(js)
-            div = Div(term=html)
+            div = Div(text=html)
             st.bokeh_chart(div)
 
 
