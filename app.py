@@ -60,14 +60,14 @@ def main():
 
     st.title("Language Detector & Translator")
 
-    activities = ["Translator","About"]
+    activities = ["Detector & Translator","About"]
     choice = st.sidebar.selectbox("Menu",activities)
 
 
-    if choice == 'Translator':
+    if choice == 'Detector & Translator':
         st.subheader("Text Area")
         lista_modos = ("For 23 languages","For selected languages")
-        modo = st.sidebar.radio("Choose ?", lista_modos)
+        modo = st.sidebar.radio("Choose", lista_modos)
         texto_default = 'Text'
         raw_text = st.text_area("Copy&Paste -> Ctrl+Enter",texto_default)
         blob = TextBlob(raw_text)
