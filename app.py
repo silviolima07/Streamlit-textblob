@@ -4,6 +4,7 @@ import streamlit as st
 # NLP Pkgs
 from textblob import TextBlob
 import pandas as pd
+from PIL import Image
 # Emoji
 import emoji
 
@@ -28,7 +29,7 @@ def get_key( my_value, my_dicts):
     for key, value in my_dicts.items():
         if my_value == value:
             return key
-
+@st.cache
 def lista_idiomas(idioma_original):
     df_idiomas = pd.read_csv('lista_idiomas.csv')
     dict_idiomas = {}
@@ -40,7 +41,7 @@ def lista_idiomas(idioma_original):
             dict_idiomas[key] = value
     return dict_idiomas
 
-
+@st.cache
 def lista_idiomas_full():
     df_idiomas = pd.read_csv('lista_idiomas.csv')
     dict_idiomas = {}
@@ -57,8 +58,11 @@ def area_texto():
 
 def main():
     """Text Analysis App """
-
+    
     st.title("Language Detector & Translator")
+    
+    image = Image.open("people_speaking.jpg")
+    st.image(image,caption="Different languages", use_column_width=True)
 
     activities = ["Detector & Translator","About"]
     choice = st.sidebar.selectbox("Menu",activities)
