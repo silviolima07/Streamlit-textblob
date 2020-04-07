@@ -12,6 +12,7 @@ pandas = "*"
 emoji = "*"
 textblob = "*"
 bs4 = "*"
+bokeh = "*"
 
 [requires]
 python_version = "3.6"
