@@ -108,7 +108,7 @@ def main():
                     
         else:
             try:
-
+                flag = False
                 if (raw_text == " " or raw_text == "  " or raw_text == "   " or raw_text == "    "):
                     st.error("Please write something in the text area")
                 elif (raw_text != texto_default) and len(raw_text)  > 0 and (raw_text != " " or raw_text != "  " or raw_text != "   " or raw_text != "    "):
@@ -121,6 +121,7 @@ def main():
             
                     st.write("Original language:",idioma_original)
                     idioma_lista = list(options)
+                    
                     for i in range(len(idioma_lista)):
                         value = idioma_lista[i]
                         #st.text(value)
@@ -129,9 +130,11 @@ def main():
                             texto_convertido = blob.translate(to=idioma_final)
                             st.success("Language"+": "+ value + " ("+idioma_final+")")
                             st.text(texto_convertido)
+                            flag = True
                     
             except:
-                st.error("ERROR: text must be at least 3 letters and the word must exist in the formal language")
+                if flag != True:
+                    st.error("ERROR: text must be at least 3 letters and the word must exist in the formal language")
 
 
     if choice == 'About':
