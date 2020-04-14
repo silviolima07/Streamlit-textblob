@@ -13,6 +13,7 @@ emoji = "*"
 textblob = "*"
 bs4 = "*"
 bokeh = "*"
+gtts = "*"
 
 [requires]
 python_version = "3.6"
