@@ -9,6 +9,7 @@ verify_ssl = true
 streamlit = "*"
 pandas = "*"
 textblob = "*"
+bokeh = "*"
 
 [requires]
 python_version = "3.6"
