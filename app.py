@@ -6,24 +6,24 @@ from textblob import TextBlob
 import pandas as pd
 from PIL import Image
 # Emoji
-import emoji
+#import emoji
 
 # Audio
-from gtts import gTTS
+#from gtts import gTTS
 
 from bokeh.models.widgets import Div
 
 # Web Scraping Pkg
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
+#from bs4 import BeautifulSoup
+#from urllib.request import urlopen
 
 # Fetch Text From Url
 @st.cache
-def get_text(raw_url):
-    page = urlopen(raw_url)
-    soup = BeautifulSoup(page)
-    fetched_text = ' '.join(map(lambda p:p.text,soup.find_all('p')))
-    return fetched_text
+#def get_text(raw_url):
+#    page = urlopen(raw_url)
+#    soup = BeautifulSoup(page)
+#    fetched_text = ' '.join(map(lambda p:p.text,soup.find_all('p')))
+#    return fetched_text
 
 def get_value( my_key, my_dicts):
     for key, value in my_dicts.items():
@@ -79,7 +79,7 @@ def main():
     image = Image.open("people_speaking.jpg")
     st.sidebar.image(image,caption="Different languages", use_column_width=True)
 
-    activities = ["Detector & Translator","Sound of Voice","About"]
+    activities = ["Detector & Translator","About"]
     choice = st.sidebar.selectbox("Menu",activities)
 
 
@@ -107,13 +107,17 @@ def main():
                     dict_idioma_full = lista_idiomas_full()
             
                     idioma_original = get_value(blob.detect_language(),dict_idioma_full)
+
+                    original_key = get_key(idioma_original, dict_idioma_full)
+                    
+                    st.success("Original Language"+":  "+ idioma_original + " ("+original_key+")")
             
                     dict_idioma = lista_idiomas(idioma_original)
                     options = st.multiselect("Choose a language", tuple(dict_idioma.values()))
                     
                     idioma_final = get_key(idioma_original, dict_idioma)
             
-                    st.write("Original language:",idioma_original)
+                    #st.write("Original language:",idioma_original)
                     for i in range(len(options)):
                         value = options[i]
                         idioma_final = get_key(value, dict_idioma)
@@ -136,11 +140,13 @@ def main():
                     dict_idioma_full = lista_idiomas_full()
             
                     idioma_original = get_value(blob.detect_language(),dict_idioma_full)
+                    original_key = get_key(idioma_original, dict_idioma_full)
+                    st.success("Original Language"+":  "+ idioma_original + " ("+original_key+")")
             
                     dict_idioma = lista_idiomas(idioma_original)
                     options = dict_idioma.values()
             
-                    st.write("Original language:",idioma_original)
+                    st.write("Original Language:",idioma_original)
                     idioma_lista = list(options)
                     
                     for i in range(len(idioma_lista)):
@@ -161,9 +167,9 @@ def main():
     elif choice == 'About':
         st.subheader("I hope you enjoy it and use to learn something")
         st.subheader("Built with Streamlit and Textblob")
-        st.write("Problems:")
-        st.write(" - sometimes the original language can't be correctly detected")
-        st.write(" - sometimes the sound will fail.")
+        #st.write("Problems:")
+        #st.write(" - sometimes the original language can't be correctly detected")
+        #st.write(" - sometimes the sound will fail.")
         st.subheader("by Silvio Lima")
         
         if st.button("Linkedin"):
