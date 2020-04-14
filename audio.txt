@@ -1,0 +1,7 @@
+!pip install gTTS playsound
+from gtts import gTTS
+import os
+tts = gTTS(text='Bom dia', lang='pt')
+tts.save("good.mp3")
+import IPython.display as ipd
+ipd.Audio(filename = "good.mp3")

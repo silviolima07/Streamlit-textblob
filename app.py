@@ -8,6 +8,9 @@ from PIL import Image
 # Emoji
 import emoji
 
+# Audio
+from gtts import gTTS
+
 from bokeh.models.widgets import Div
 
 # Web Scraping Pkg
@@ -58,6 +61,16 @@ def area_texto():
     raw_text = st.text_area("Copie e Cole o texto",'cole aqui')
     return raw_text
 
+
+def play(raw_text, idioma_key):
+    tts = gTTS(text=raw_text, lang=idioma_key)
+    tts.save("audio.mp3")
+    audio_file = open("audio.mp3","rb")
+    audio_bytes = audio_file.read()
+    st.audio(audio_bytes, format="audio/mp3") 
+    
+
+
 def main():
     """Text Analysis App """
     
@@ -66,7 +79,7 @@ def main():
     image = Image.open("people_speaking.jpg")
     st.sidebar.image(image,caption="Different languages", use_column_width=True)
 
-    activities = ["Detector & Translator","About"]
+    activities = ["Detector & Translator","Sound of Voice","About"]
     choice = st.sidebar.selectbox("Menu",activities)
 
 
@@ -77,6 +90,11 @@ def main():
         texto_default = 'Text'
         raw_text = st.text_area("Copy&Paste -> Ctrl+Enter",texto_default)
         blob = TextBlob(raw_text)
+
+        # Audioplay
+        #if st.button("Audio"):
+        #    play(raw_text)       
+
         if modo == "For selected languages":
             #texto_default = 'Texto'
             #raw_text = st.text_area("Copy&Paste -> Ctrl+Enter",texto_default)
@@ -92,6 +110,8 @@ def main():
             
                     dict_idioma = lista_idiomas(idioma_original)
                     options = st.multiselect("Choose a language", tuple(dict_idioma.values()))
+                    
+                    idioma_final = get_key(idioma_original, dict_idioma)
             
                     st.write("Original language:",idioma_original)
                     for i in range(len(options)):
@@ -101,6 +121,7 @@ def main():
                             texto_convertido = blob.translate(to=idioma_final)
                             st.success("Language"+": "+ value + " ("+idioma_final+")")
                             st.text(texto_convertido)
+                            #play(texto_convertido,idioma_final)
                     
             except:
                 st.error("ERROR: text must be at least 3 letters and the word must exist in the formal language")
@@ -137,9 +158,12 @@ def main():
                     st.error("ERROR: text must be at least 3 letters and the word must exist in the formal language")
 
 
-    if choice == 'About':
+    elif choice == 'About':
         st.subheader("I hope you enjoy it and use to learn something")
         st.subheader("Built with Streamlit and Textblob")
+        st.write("Problems:")
+        st.write(" - sometimes the original language can't be correctly detected")
+        st.write(" - sometimes the sound will fail.")
         st.subheader("by Silvio Lima")
         
         if st.button("Linkedin"):
@@ -148,8 +172,45 @@ def main():
             div = Div(text=html)
             st.bokeh_chart(div)
 
+    else:
+        # Audioplay
+        st.subheader("Text Area")
+        texto_default = 'Text'
+        raw_text = st.text_area("Copy&Paste -> Ctrl+Enter",texto_default)
+        blob = TextBlob(raw_text)
+        try:
+            if (raw_text == texto_default or raw_text == " " or raw_text == "  " or raw_text == "   " or raw_text == "    "):
+                st.error("Please write something in the text area")
+            else:
+                    dict_idioma_full = lista_idiomas_full()
+                    idioma_original = get_value(blob.detect_language(),dict_idioma_full)
+                    original_key = get_key(idioma_original, dict_idioma_full)
+                    
+                    st.success("Original Language"+":  "+ idioma_original + " ("+original_key+")")
+                    play(raw_text,original_key)
+            
+                    dict_idioma = lista_idiomas(idioma_original)
+                    options = st.multiselect("Choose a language", tuple(dict_idioma.values()))
+                                      
+                    
 
+                    for i in range(len(options)):
+                        value = options[i]
+                        idioma_final_key = get_key(value, dict_idioma)
+                        try:
+                            if (idioma_original != idioma_final_key):
+                                texto_convertido = str(blob.translate(to=idioma_final_key))
+                                st.success("Language"+": "+ value + " ("+idioma_final_key+")")
+                                st.text(texto_convertido)
+                                play(texto_convertido,idioma_final_key)
+                        
+                        except:
+                            st.error("ERROR: some languages will fail to play the sound.")
+        except:
+            st.error("ERROR: text must be at least 3 letters and the word must exist in the formal language")      
 
+ 
+    
 
 
 
